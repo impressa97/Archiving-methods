@@ -1,0 +1,5 @@
+c:\users\vlad\documents\visual studio 2015\Projects\Archiving-methods\LzwMethod\bin\Debug\LzwMethod.dll
+c:\users\vlad\documents\visual studio 2015\Projects\Archiving-methods\LzwMethod\bin\Debug\LzwMethod.pdb
+c:\users\vlad\documents\visual studio 2015\Projects\Archiving-methods\LzwMethod\obj\Debug\LzwMethod.csprojResolveAssemblyReference.cache
+c:\users\vlad\documents\visual studio 2015\Projects\Archiving-methods\LzwMethod\obj\Debug\LzwMethod.dll
+c:\users\vlad\documents\visual studio 2015\Projects\Archiving-methods\LzwMethod\obj\Debug\LzwMethod.pdb

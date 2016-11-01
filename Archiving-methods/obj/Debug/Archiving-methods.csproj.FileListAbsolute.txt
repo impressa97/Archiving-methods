@@ -1,3 +1,0 @@
-c:\users\vlad\documents\visual studio 2015\Projects\Archiving-methods\Archiving-methods\bin\Debug\Archiving-methods.exe.config
-c:\users\vlad\documents\visual studio 2015\Projects\Archiving-methods\Archiving-methods\obj\Debug\Archiving-methods.csprojResolveAssemblyReference.cache
-C:\lzw\Archiving-methods\Archiving-methods\bin\Debug\Archiving-methods.exe.config

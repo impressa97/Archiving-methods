@@ -1,0 +1,17 @@
+C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Debug\Method.csprojResolveAssemblyReference.cache
+C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Debug\priconfig.xml
+C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Debug\priconfig.xml.intermediate
+C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Debug\layout.resfiles
+C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Debug\layout.resfiles.intermediate
+C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Debug\resources.resfiles
+C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Debug\resources.resfiles.intermediate
+C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Debug\pri.resfiles
+C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Debug\pri.resfiles.intermediate
+C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Debug\qualifiers.txt
+C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Debug\qualifiers.txt.intermediate
+C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Debug\MultipleQualifiersPerDimensionFound.txt
+C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\bin\Debug\M0.dll
+C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\bin\Debug\M0.pdb
+C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\bin\Debug\M0.pri
+C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Debug\M0.dll
+C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Debug\M0.pdb

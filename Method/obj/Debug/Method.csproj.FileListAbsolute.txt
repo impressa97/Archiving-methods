@@ -1,4 +1,3 @@
-C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Debug\Method.csprojResolveAssemblyReference.cache
 C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Debug\priconfig.xml
 C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Debug\priconfig.xml.intermediate
 C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Debug\layout.resfiles

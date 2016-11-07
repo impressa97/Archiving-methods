@@ -61,5 +61,6 @@ namespace Method
             get;
             set;
         }
+        public const UInt16 BufferLengthByte = UInt16.MaxValue;
     }
 }

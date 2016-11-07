@@ -1,0 +1,17 @@
+Method LZ77
+
+It take 2 streams.
+Window = 1024byte
+
+qwre dawr darqwe
+|	Dict	|	Pos|Len	|	OFile				|
+|qwre dawr	|	<0, 9>	|<0, 9, 0>qwre dawr			|
+| da		|	<4, 3>	|<0, 9, 0>qwre dawr<4, 3, 9>		|
+|		|		|<0, 9, 0>qwre dawr<4, 3, 9>r		|
+|qwe		|		|<0, 9, 0>qwre dawr<4, 3, 9>rqwe<4, 0>	|
+
+<4, 3, 9>					<4, 0>
+ |  |  |					 |  |
+ |  |  Bytes for preview struct			 |  Length of repeated elements
+ |  Length of repeated elements			 Bytes for preview struct
+ Position in dictionary

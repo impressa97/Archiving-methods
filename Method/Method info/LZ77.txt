@@ -1,17 +1,44 @@
 Method LZ77
 
-It take 2 streams.
-Window = 1024byte
+Window = 2048byte
+If more:
+	Time -> max
+	Size -> min
+If less:
+	Time -> min
+	Size -> max
 
+---
+
+Input message:
 qwre dawr darqwe
-|	Dict	|	Pos|Len	|	OFile				|
-|qwre dawr	|	<0, 9>	|<0, 9, 0>qwre dawr			|
-| da		|	<4, 3>	|<0, 9, 0>qwre dawr<4, 3, 9>		|
-|		|		|<0, 9, 0>qwre dawr<4, 3, 9>r		|
-|qwe		|		|<0, 9, 0>qwre dawr<4, 3, 9>rqwe<4, 0>	|
+Bytes need: 16
 
+			! One number take 2 byte!
+|	Window		|Offset|Len|BytesRepStr	|	OFile				|
+|qwre dawr		|	<0, 9, 0>	|<0, 9, 0>qwre dawr			|
+|qwre dawr da		|	<4, 3, 9>	|<0, 9, 0>qwre dawr<4, 3, 9>		|
+|qwre dawr dar		|			|<0, 9, 0>qwre dawr<4, 3, 9>r		|
+|qwre dawr darqwe	|			|<0, 9, 0>qwre dawr<4, 3, 9>rqwe<4, 0>	|
+
+Output message:
+090qwre dawr439rqwe40
+Bytes need: 29
+
+---
+
+For reading from end(not good, but easy(less RAM)):
 <4, 3, 9>					<4, 0>
  |  |  |					 |  |
  |  |  Bytes for preview struct			 |  Length of repeated elements
  |  Length of repeated elements			 Bytes for preview struct
  Position in dictionary
+
+For normal reading:
+<4, 3, 9>					<4, 0>
+ |  |  |					 |  |
+ |  |  Bytes for next struct			 |  Length of repeated elements
+ |  Length of repeated elements			 Bytes for next struct
+ Position in dictionary
+
+---

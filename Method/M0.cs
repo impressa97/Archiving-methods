@@ -30,6 +30,8 @@ namespace Method
         /// </summary>
         private void Compress()
         {
+            this.BinFileReader.BaseStream.Position = 0;
+            this.BinFileWriter.BaseStream.Position = 0;
             for (; this.BinFileReader.BaseStream.Position < this.BinFileReader.BaseStream.Length;)
             {
                 this.BinFileWriter.Write(this.BinFileReader.ReadByte());
@@ -40,6 +42,8 @@ namespace Method
         /// </summary>
         private void DeCompress()
         {
+            this.BinFileReader.BaseStream.Position = 0;
+            this.BinFileWriter.BaseStream.Position = 0;
             for (; this.BinFileReader.BaseStream.Position < this.BinFileReader.BaseStream.Length;)
             {
                 this.BinFileWriter.Write(this.BinFileReader.ReadByte());

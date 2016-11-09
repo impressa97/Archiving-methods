@@ -34,7 +34,14 @@ namespace Method
             this.BinFileWriter.BaseStream.Position = 0;
             for (; this.BinFileReader.BaseStream.Position < this.BinFileReader.BaseStream.Length;)
             {
-                this.BinFileWriter.Write(this.BinFileReader.ReadByte());
+                if ((this.BinFileReader.BaseStream.Position + 8) < this.BinFileReader.BaseStream.Length)
+                {
+                    this.BinFileWriter.Write(this.BinFileReader.ReadUInt64());
+                }
+                else
+                {
+                    this.BinFileWriter.Write(this.BinFileReader.ReadByte());
+                }
             }
         }
         /// <summary>
@@ -46,8 +53,15 @@ namespace Method
             this.BinFileWriter.BaseStream.Position = 0;
             for (; this.BinFileReader.BaseStream.Position < this.BinFileReader.BaseStream.Length;)
             {
-                this.BinFileWriter.Write(this.BinFileReader.ReadByte());
-            }
+                if ((this.BinFileReader.BaseStream.Position + 8) < this.BinFileReader.BaseStream.Length)
+                {
+                    this.BinFileWriter.Write(this.BinFileReader.ReadUInt64());
+                }
+                else
+                {
+                    this.BinFileWriter.Write(this.BinFileReader.ReadByte());
+                }
+        }
         }
         /// <summary>
         /// Reader for input stream

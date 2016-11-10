@@ -35,48 +35,100 @@ namespace Method
             this.BinFileReader.BaseStream.Position = 0;
             this.BinFileWriter.BaseStream.Position = 0;
 
-            for (; this.BinFileReader.BaseStream.Position < this.BinFileReader.BaseStream.Length; )
-            {
-                this.StreamPositionBuffer = this.BinFileReader.BaseStream.Position;
+            this.SlidingWindow = new System.Collections.Generic.List<byte>();
 
-                for (; this.BinFileReader.BaseStream.Position < this.BinFileReader.BaseStream.Length; )
+            for (; this.BinFileReader.BaseStream.Position < this.BinFileReader.BaseStream.Length;)
+            {
+                /// Запомнили стартовую позицию указателя
+                this.StreamPositionBuffer = this.BinFileReader.BaseStream.Position;
+                this.IndexOfEquals = null;
+                this.IsLast = false;
+
+                /// Читаем символ, и проверяем соответствие в скользящем окне
+                for (this.Offset = 0; this.BinFileReader.BaseStream.Position < this.BinFileReader.BaseStream.Length; ++this.Offset)
                 {
                     this.ReadedByte = this.BinFileReader.ReadByte();
+                    /// Подготовка списка кондидитов на удаление для текущей итерации
+                    this.IndexForRemove = new System.Collections.Generic.List<int>();
 
+                    /// Создание буфера соответствий
                     if (this.IndexOfEquals == null)
                     {
                         this.IndexOfEquals = new System.Collections.Generic.List<Int32>();
 
-                        this.IndexOfEquals = this.SlidingWindow.Select((x, i) => (x == this.ReadedByte) ? i : -1).Where(x => x != -1).ToList();
+                        this.IndexOfEquals = this.SlidingWindow.Select((x, i) => i).ToList();//(x == this.ReadedByte) ? i : -1).Where(x => x != -1).ToList();
+
+                        /// Не найдено не одного соответствия
+                        if (this.IndexOfEquals.Count < 1)
+                        {
+                            --this.BinFileReader.BaseStream.Position;
+                            break;
+                        }
                     }
                     else
                     {
                         foreach (Int32 x in IndexOfEquals)
                         {
-                            if ((x + this.Offset) < SlidingWindow.Capacity)
+                            /// Если не достигнут конец скользящего окна
+                            if ((x + this.Offset) < SlidingWindow.Count)
                             {
+                                /// Если элемент в окне не соответствует считанному с потока
                                 if (this.SlidingWindow[x + this.Offset] != this.ReadedByte)
                                 {
+                                    /// Помечаем как кондидат на удаление
                                     this.IndexForRemove.Add(x);
                                 }
                             }
                             else
                             {
-                                /// Тут не правельно
+                                /// Помечаем как кондидат на удаление
                                 this.IndexForRemove.Add(x);
                             }
                         }
 
-                        if ((this.IndexOfEquals.Count - this.IndexForRemove.Count) > 0)
+                        this.HelpDeleateOffset = 0;
+                        foreach (Int32 x in IndexForRemove)
                         {
-                            foreach (Int32 x in IndexForRemove)
+                            /// Если индекс последний
+                            if (IndexOfEquals.Count() <= 1)
                             {
-                                this.IndexOfEquals.RemoveAt(x);
+                                this.IsLast = true;
+                                /// Т.к. Последнее считанное значение не найдено в сккользящем окне, оно  лишнее и его читать не следовало
+                                --this.BinFileReader.BaseStream.Position;
+                                break;
+                            }
+                            else
+                            {
+                                this.IndexOfEquals.Remove(x);// - HelpDeleateOffset);
+                                ++this.HelpDeleateOffset;
+                                continue;
                             }
                         }
                     }
+                    if (IsLast)
+                    {
+                        break;
+                    }
+                }
 
-                    ++this.Offset;
+                if ((this.Offset + 1) > Method.MinArchivingCount)
+                {
+                    //StreamPositionBuffer = this.BinFileWriter.BaseStream.Position;
+                    this.BinFileReader.BaseStream.Position = this.StreamPositionBuffer;
+                    this.InputByteBuffer = this.BinFileReader.ReadBytes(this.Offset + 1);
+                    BinFileWriter.Write(this.IndexOfEquals[0].ToString());
+                    BinFileWriter.Write(this.Offset.ToString());
+                }
+                else
+                {
+                    this.BinFileReader.BaseStream.Position = this.StreamPositionBuffer;
+                    /// Чтение знаков из входного потока
+                    this.InputByteBuffer = this.BinFileReader.ReadBytes(this.Offset + 1);
+                    /// Запись в выходной
+                    this.BinFileWriter.Write(InputByteBuffer);
+                    /// Запись в скользящее окно
+                    //this.SlidingWindow.RemoveRange(0, this.SlidingWindow.Count() - Method.BufferLengthByte);
+                    this.SlidingWindow.AddRange(this.InputByteBuffer);
                 }
             }
         }
@@ -120,12 +172,22 @@ namespace Method
             get;
             set;
         }
-        private Int32 Offset
+        private byte[] InputByteBuffer
         {
             get;
             set;
         }
         private Int64 StreamPositionBuffer
+        {
+            get;
+            set;
+        }
+        private bool IsLast
+        {
+            get;
+            set;
+        }
+        private Int32 Offset
         {
             get;
             set;
@@ -145,6 +207,15 @@ namespace Method
             get;
             set;
         }
+        private UInt16 HelpDeleateOffset
+        {
+            get;
+            set;
+        }
         public const UInt16 BufferLengthByte = 1024;
+        /// <summary>
+        /// Значение равное 3 * (Тип записываемых в выходной поток меток в байтах)
+        /// </summary>
+        public const UInt16 MinArchivingCount = 6;
     }
 }

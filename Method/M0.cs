@@ -2,7 +2,7 @@
 using System.Linq;
 using System.IO.Compression;
 
-namespace Method
+namespace ar
 {
     public class Method
     {
@@ -35,6 +35,9 @@ namespace Method
             this.BinFileReader.BaseStream.Position = 0;
             this.BinFileWriter.BaseStream.Position = 0;
 
+            BinFileWriter.Write((UInt16)0);
+            this.PreviousStructInStream = 0;
+
             this.SlidingWindow = new System.Collections.Generic.List<byte>();
 
             for (; this.BinFileReader.BaseStream.Position < this.BinFileReader.BaseStream.Length;)
@@ -43,9 +46,10 @@ namespace Method
                 this.StreamPositionBuffer = this.BinFileReader.BaseStream.Position;
                 this.IndexOfEquals = null;
                 this.IsLast = false;
+                this.Offset = 0;
 
                 /// Читаем символ, и проверяем соответствие в скользящем окне
-                for (this.Offset = 0; this.BinFileReader.BaseStream.Position < this.BinFileReader.BaseStream.Length; ++this.Offset)
+                for (; this.BinFileReader.BaseStream.Position < this.BinFileReader.BaseStream.Length;)
                 {
                     this.ReadedByte = this.BinFileReader.ReadByte();
                     /// Подготовка списка кондидитов на удаление для текущей итерации
@@ -56,12 +60,13 @@ namespace Method
                     {
                         this.IndexOfEquals = new System.Collections.Generic.List<Int32>();
 
-                        this.IndexOfEquals = this.SlidingWindow.Select((x, i) => i).ToList();//(x == this.ReadedByte) ? i : -1).Where(x => x != -1).ToList();
+                        this.IndexOfEquals = this.SlidingWindow.Select((x, i) => (x == this.ReadedByte) ? i : -1).Where(x => x != -1).ToList();
 
                         /// Не найдено не одного соответствия
+                        /// = Заход в первый раз.
                         if (this.IndexOfEquals.Count < 1)
                         {
-                            --this.BinFileReader.BaseStream.Position;
+                            ++this.Offset;
                             break;
                         }
                     }
@@ -93,13 +98,11 @@ namespace Method
                             if (IndexOfEquals.Count() <= 1)
                             {
                                 this.IsLast = true;
-                                /// Т.к. Последнее считанное значение не найдено в сккользящем окне, оно  лишнее и его читать не следовало
-                                --this.BinFileReader.BaseStream.Position;
                                 break;
                             }
                             else
                             {
-                                this.IndexOfEquals.Remove(x);// - HelpDeleateOffset);
+                                this.IndexOfEquals.Remove(x);
                                 ++this.HelpDeleateOffset;
                                 continue;
                             }
@@ -109,26 +112,58 @@ namespace Method
                     {
                         break;
                     }
+                    ++this.Offset;
                 }
 
-                if ((this.Offset + 1) > Method.MinArchivingCount)
+                /// Не пишим промежуточные(дополнительные отметки)
+                if (this.Offset > (Method.MinArchivingCount - 1))
                 {
-                    //StreamPositionBuffer = this.BinFileWriter.BaseStream.Position;
                     this.BinFileReader.BaseStream.Position = this.StreamPositionBuffer;
-                    this.InputByteBuffer = this.BinFileReader.ReadBytes(this.Offset + 1);
-                    BinFileWriter.Write(this.IndexOfEquals[0].ToString());
-                    BinFileWriter.Write(this.Offset.ToString());
+                    this.InputByteBuffer = this.BinFileReader.ReadBytes(this.Offset);
+                    BinFileWriter.Write((UInt16)0);
+
+                    this.BinFileWriter.BaseStream.Position = this.PreviousStructInStream;
+                    /// 4 = 2 * Sizeof(BufferLengthByte)
+                    this.BinFileWriter.Write((UInt16)(this.BinFileWriter.BaseStream.Length - 4 - this.BinFileWriter.BaseStream.Position));
+                    /// 2 = Sizeof(BufferLengthByte)
+                    this.BinFileWriter.BaseStream.Position = this.BinFileWriter.BaseStream.Length;
+                    this.PreviousStructInStream = this.BinFileWriter.BaseStream.Position - 2;
+
+                    BinFileWriter.Write((UInt16)this.IndexOfEquals[0]);
+                    BinFileWriter.Write((UInt16)this.Offset);                                                       ///?qwe_??qwsa
+
+                    /*
+                    this.IndexOfEquals.Add((UInt16)(this.BinFileWriter.BaseStream.Position - this.PreviousStructInStream));
+                    this.StreamPositionBuffer = this.BinFileWriter.BaseStream.Position;
+                    this.BinFileWriter.BaseStream.Position = this.PreviousStructInStream;
+                    this.BinFileWriter.Write(this.IndexOfEquals.Last().ToString());
+                    this.BinFileWriter.BaseStream.Position = this.StreamPositionBuffer + 1;
+                    this.PreviousStructInStream = this.StreamPositionBuffer - 1;
+                    */
+
+                    /// Запись в скользящее окно
+                    this.SlidingWindow.AddRange(InputByteBuffer);
+                    if ((this.SlidingWindow.Count - 1) - Method.BufferLengthByte > 0)
+                    {
+                        this.SlidingWindow.RemoveRange(0, (this.SlidingWindow.Count - 1) - Method.BufferLengthByte);
+                    }
+                    this.IndexOfEquals.Clear();
                 }
                 else
                 {
                     this.BinFileReader.BaseStream.Position = this.StreamPositionBuffer;
                     /// Чтение знаков из входного потока
-                    this.InputByteBuffer = this.BinFileReader.ReadBytes(this.Offset + 1);
+                    this.InputByteBuffer = this.BinFileReader.ReadBytes(this.Offset);
                     /// Запись в выходной
                     this.BinFileWriter.Write(InputByteBuffer);
                     /// Запись в скользящее окно
-                    //this.SlidingWindow.RemoveRange(0, this.SlidingWindow.Count() - Method.BufferLengthByte);
                     this.SlidingWindow.AddRange(this.InputByteBuffer);
+                    /// Чтобы не вылетал, когда не заполнен под завязку
+                    if ((this.SlidingWindow.Count - 1) - Method.BufferLengthByte > 0)
+                    {
+                        this.SlidingWindow.RemoveRange(0, (this.SlidingWindow.Count - 1) - Method.BufferLengthByte);
+                    }
+                    this.IndexOfEquals.Clear();
                 }
             }
         }
@@ -208,6 +243,11 @@ namespace Method
             set;
         }
         private UInt16 HelpDeleateOffset
+        {
+            get;
+            set;
+        }
+        private Int64 PreviousStructInStream
         {
             get;
             set;

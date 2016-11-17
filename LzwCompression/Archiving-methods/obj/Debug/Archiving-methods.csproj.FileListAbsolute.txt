@@ -6,11 +6,3 @@ C:\lzw\Archiving-methods\LzwCompression\Archiving-methods\bin\Debug\Method.pdb
 C:\lzw\Archiving-methods\LzwCompression\Archiving-methods\obj\Debug\Archiving-methods.csprojResolveAssemblyReference.cache
 C:\lzw\Archiving-methods\LzwCompression\Archiving-methods\obj\Debug\Archiving-methods.exe
 C:\lzw\Archiving-methods\LzwCompression\Archiving-methods\obj\Debug\Archiving-methods.pdb
-C:\Users\Vlad\Documents\GitHub\Archiving-methods\LzwCompression\Archiving-methods\bin\Debug\Archiving-methods.exe.config
-C:\Users\Vlad\Documents\GitHub\Archiving-methods\LzwCompression\Archiving-methods\obj\Debug\Archiving-methods.exe
-C:\Users\Vlad\Documents\GitHub\Archiving-methods\LzwCompression\Archiving-methods\obj\Debug\Archiving-methods.pdb
-C:\Users\Vlad\Documents\GitHub\Archiving-methods\LzwCompression\Archiving-methods\bin\Debug\Archiving-methods.exe
-C:\Users\Vlad\Documents\GitHub\Archiving-methods\LzwCompression\Archiving-methods\bin\Debug\Archiving-methods.pdb
-C:\Users\Vlad\Documents\GitHub\Archiving-methods\LzwCompression\Archiving-methods\bin\Debug\Method.dll
-C:\Users\Vlad\Documents\GitHub\Archiving-methods\LzwCompression\Archiving-methods\bin\Debug\Method.pdb
-C:\Users\Vlad\Documents\GitHub\Archiving-methods\LzwCompression\Archiving-methods\obj\Debug\Archiving-methods.csprojResolveAssemblyReference.cache

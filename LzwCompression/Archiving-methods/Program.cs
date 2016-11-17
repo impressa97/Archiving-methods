@@ -10,9 +10,9 @@ namespace Archiving_methods
         static void Main(string[] args)
         {
 
-            string path = @"C:\Test\test.txt";  //Отсюда берем
+            string path = @"C:\Test\test.png";  //Отсюда берем
             string Spath = @"C:\Test\Compress.txt"; //Сюда кладем
-            string Dpath = @"C:\Test\DeCompress.txt";// Сюда возвращаем
+            string Dpath = @"C:\Test\DeCompress.png";// Сюда возвращаем
             //Arc
             FileStream InputFileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
             FileStream OutputFileStream = new FileStream(Spath, FileMode.Open, FileAccess.Write);

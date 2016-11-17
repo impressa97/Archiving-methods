@@ -16,9 +16,10 @@ namespace Method
         /// <param name="ZipFlag"> Flag of method. If ZipFlag = true then need to call zip method </param>
         public Method(System.IO.Stream InputFileStream, System.IO.Stream OutputFileStream, bool ZipFlag)
         {
-            this.BinFileReader = new System.IO.BinaryReader(InputFileStream);
-            this.BinFileWriter = new System.IO.BinaryWriter(OutputFileStream);
-
+            this.BinFileReader = new System.IO.BinaryReader(InputFileStream, Encoding.Default);
+            this.BinFileWriter = new System.IO.BinaryWriter(OutputFileStream, Encoding.Default);
+            this.BinFileReader.BaseStream.Position = 0;
+            this.BinFileWriter.BaseStream.Position = 0;
             if (ZipFlag)
             {
                 Compress();
@@ -31,11 +32,18 @@ namespace Method
 
         private void Compress()
         {
+        	
             StringBuilder str = new StringBuilder();
-            while (this.BinFileReader.BaseStream.Position != this.BinFileReader.BaseStream.Length)
+          //  Console.WriteLine("Readpos:{0}",this.BinFileReader.BaseStream.Position);
+          //  Console.WriteLine("Writepos:{0}",this.BinFileWriter.BaseStream.Position);
+        	
+            // sr.BaseStream.Position = 0;
+            using( StreamReader sr = new StreamReader(this.BinFileReader.BaseStream,Encoding.Default))
             {
-                str.Append(this.BinFileReader.ReadChar().ToString());
+          		str.Append(sr.ReadToEnd());
+          		//Console.WriteLine("Readpos:{0}",this.BinFileReader.BaseStream.Position);
             }
+            
             Dictionary<string, int> dictionary = DictionaryIni(str.ToString());
             List<int> lst = Arc(str.ToString());
 
@@ -50,21 +58,20 @@ namespace Method
             foreach (var item in lst)
             {
                 this.BinFileWriter.Write(item);
+           //  Console.WriteLine("Writepos:{0}",this.BinFileWriter.BaseStream.Position);
             }
-            Console.WriteLine("lst");
-            int j = 0;
-            foreach (var item in lst)
-            {
-                Console.WriteLine("{0}:{1}", j, item);
-                j++;
-            }
-            Console.WriteLine("Info\n Dictionary Count:{0}\nList Count:{1}", dictionary.Count, lst.Count);
+           // Console.WriteLine("Writelen:{0}",this.BinFileWriter.BaseStream.Length);
         }
         private void DeCompress()
         {
+        	//Console.WriteLine("Readpos:{0}",this.BinFileReader.BaseStream.Position);
+            //Console.WriteLine("Writepos:{0}",this.BinFileWriter.BaseStream.Position);
+        	//this.BinFileReader.BaseStream.Position = 0;
+        	//this.BinFileWriter.BaseStream.Position = 0;
             int dicCount = this.BinFileReader.ReadInt32();
             int lstCOunt = this.BinFileReader.ReadInt32();
-            Console.WriteLine("ReadInfo\n Dictionary Count:{0}\nList Count:{1}", dicCount, lstCOunt);
+            
+            //Console.WriteLine("ReadInfo\n Dictionary Count:{0}\nList Count:{1}", dicCount, lstCOunt);
             StringBuilder str = new StringBuilder();
             for (int i = 0; i < dicCount; i++)
             {
@@ -72,7 +79,7 @@ namespace Method
             }
             Dictionary<string, int> dictionary = DictionaryIni(str.ToString());
             List<int> lst = new List<int>();
-            for (int i = 0; i <= lstCOunt; i++)
+            for (int i = 0; i < lstCOunt; i++)
             {
                 lst.Add(this.BinFileReader.ReadInt32());
             }
@@ -82,17 +89,9 @@ namespace Method
             foreach (var item in decompress)
             {
                 this.BinFileWriter.Write(item);
+             //   Console.WriteLine("Writepos:{0}",this.BinFileWriter.BaseStream.Position);
             }
-
-            Console.WriteLine("lst1");
-            int j = 0;
-            foreach (var item in lst)
-            {
-                Console.WriteLine("{0}:{1}",j,item);
-                j++;
-            }
-
-            
+             // Console.WriteLine("Writelen:{0}",this.BinFileWriter.BaseStream.Length);
         }
         private System.IO.BinaryReader BinFileReader
         {
@@ -203,11 +202,8 @@ namespace Method
             {
 
                 int tmp1 = dic[stringlist[i]];
-
-
                 tmp.Add(tmp1, stringlist[i]);
                 i++;
-
             }
 
             return tmp;

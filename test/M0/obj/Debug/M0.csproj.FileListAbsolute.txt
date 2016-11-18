@@ -1,0 +1,20 @@
+C:\Users\student\Documents\SharpDevelop Projects\test\M0\bin\Debug\M0.dll
+C:\Users\student\Documents\SharpDevelop Projects\test\M0\bin\Debug\M0.pdb
+C:\Users\student\Documents\SharpDevelop Projects\test\M0\obj\Debug\M0.csprojResolveAssemblyReference.cache
+C:\Users\student\Documents\SharpDevelop Projects\test\M0\obj\Debug\M0.dll
+C:\Users\student\Documents\SharpDevelop Projects\test\M0\obj\Debug\M0.pdb
+C:\Users\student\Desktop\SharpDevelop Projects\test\M0\bin\Debug\M0.dll
+C:\Users\student\Desktop\SharpDevelop Projects\test\M0\bin\Debug\M0.pdb
+C:\Users\student\Desktop\SharpDevelop Projects\test\M0\obj\Debug\M0.csprojResolveAssemblyReference.cache
+C:\Users\student\Desktop\SharpDevelop Projects\test\M0\obj\Debug\M0.dll
+C:\Users\student\Desktop\SharpDevelop Projects\test\M0\obj\Debug\M0.pdb
+G:\Курсач cs\SharpDevelop Projects\test\M0\bin\Debug\M0.dll
+G:\Курсач cs\SharpDevelop Projects\test\M0\bin\Debug\M0.pdb
+G:\Курсач cs\SharpDevelop Projects\test\M0\obj\Debug\M0.csprojResolveAssemblyReference.cache
+G:\Курсач cs\SharpDevelop Projects\test\M0\obj\Debug\M0.dll
+G:\Курсач cs\SharpDevelop Projects\test\M0\obj\Debug\M0.pdb
+I:\Курсач cs\SharpDevelop Projects\test\M0\bin\Debug\M0.dll
+I:\Курсач cs\SharpDevelop Projects\test\M0\bin\Debug\M0.pdb
+I:\Курсач cs\SharpDevelop Projects\test\M0\obj\Debug\M0.csprojResolveAssemblyReference.cache
+I:\Курсач cs\SharpDevelop Projects\test\M0\obj\Debug\M0.dll
+I:\Курсач cs\SharpDevelop Projects\test\M0\obj\Debug\M0.pdb

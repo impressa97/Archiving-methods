@@ -1,0 +1,32 @@
+C:\Users\student\Documents\SharpDevelop Projects\test\test\bin\Debug\test.exe.config
+C:\Users\student\Documents\SharpDevelop Projects\test\test\bin\Debug\test.exe
+C:\Users\student\Documents\SharpDevelop Projects\test\test\bin\Debug\test.pdb
+C:\Users\student\Documents\SharpDevelop Projects\test\test\bin\Debug\M0.dll
+C:\Users\student\Documents\SharpDevelop Projects\test\test\bin\Debug\M0.pdb
+C:\Users\student\Documents\SharpDevelop Projects\test\test\obj\Debug\test.csprojResolveAssemblyReference.cache
+C:\Users\student\Documents\SharpDevelop Projects\test\test\obj\Debug\test.exe
+C:\Users\student\Documents\SharpDevelop Projects\test\test\obj\Debug\test.pdb
+C:\Users\student\Desktop\SharpDevelop Projects\test\test\bin\Debug\test.exe.config
+C:\Users\student\Desktop\SharpDevelop Projects\test\test\bin\Debug\test.exe
+C:\Users\student\Desktop\SharpDevelop Projects\test\test\bin\Debug\test.pdb
+C:\Users\student\Desktop\SharpDevelop Projects\test\test\bin\Debug\M0.dll
+C:\Users\student\Desktop\SharpDevelop Projects\test\test\bin\Debug\M0.pdb
+C:\Users\student\Desktop\SharpDevelop Projects\test\test\obj\Debug\test.csprojResolveAssemblyReference.cache
+C:\Users\student\Desktop\SharpDevelop Projects\test\test\obj\Debug\test.exe
+C:\Users\student\Desktop\SharpDevelop Projects\test\test\obj\Debug\test.pdb
+G:\Курсач cs\SharpDevelop Projects\test\test\bin\Debug\test.exe.config
+G:\Курсач cs\SharpDevelop Projects\test\test\bin\Debug\test.exe
+G:\Курсач cs\SharpDevelop Projects\test\test\bin\Debug\test.pdb
+G:\Курсач cs\SharpDevelop Projects\test\test\bin\Debug\M0.dll
+G:\Курсач cs\SharpDevelop Projects\test\test\bin\Debug\M0.pdb
+G:\Курсач cs\SharpDevelop Projects\test\test\obj\Debug\test.csprojResolveAssemblyReference.cache
+G:\Курсач cs\SharpDevelop Projects\test\test\obj\Debug\test.exe
+G:\Курсач cs\SharpDevelop Projects\test\test\obj\Debug\test.pdb
+I:\Курсач cs\SharpDevelop Projects\test\test\bin\Debug\test.exe.config
+I:\Курсач cs\SharpDevelop Projects\test\test\obj\Debug\test.exe
+I:\Курсач cs\SharpDevelop Projects\test\test\obj\Debug\test.pdb
+I:\Курсач cs\SharpDevelop Projects\test\test\bin\Debug\test.exe
+I:\Курсач cs\SharpDevelop Projects\test\test\bin\Debug\test.pdb
+I:\Курсач cs\SharpDevelop Projects\test\test\bin\Debug\M0.dll
+I:\Курсач cs\SharpDevelop Projects\test\test\bin\Debug\M0.pdb
+I:\Курсач cs\SharpDevelop Projects\test\test\obj\Debug\test.csprojResolveAssemblyReference.cache

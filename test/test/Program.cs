@@ -11,6 +11,7 @@ namespace Archiving_methods
         {
 
 <<<<<<< HEAD:test/test/Program.cs
+<<<<<<< HEAD:test/test/Program.cs
 <<<<<<< HEAD:LzwCompression/Archiving-methods/Program.cs
             string path = @"C:\Test\test.txt";  //Отсюда берем
             string Spath = @"C:\Test\Compress.txt"; //Сюда кладем
@@ -18,11 +19,16 @@ namespace Archiving_methods
 =======
 =======
 >>>>>>> pr/18:test/test/Program.cs
+=======
+>>>>>>> pr/18:test/test/Program.cs
             string path = @"G:\SQLQuery\Text.txt";  //Отсюда берем
             string Spath = @"G:\SQLQuery\Compress.txt"; //Сюда кладем
             string Dpath = @"G:\SQLQuery\DeCompress.txt";// Сюда возвращаем
             
 <<<<<<< HEAD:test/test/Program.cs
+<<<<<<< HEAD:test/test/Program.cs
+>>>>>>> pr/18:test/test/Program.cs
+=======
 >>>>>>> pr/18:test/test/Program.cs
 =======
 >>>>>>> pr/18:test/test/Program.cs

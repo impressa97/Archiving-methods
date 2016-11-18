@@ -1,5 +1,13 @@
+<<<<<<< HEAD
 C:\lzw\Archiving-methods\LzwCompression\Method\bin\Debug\Method.dll
 C:\lzw\Archiving-methods\LzwCompression\Method\bin\Debug\Method.pdb
 C:\lzw\Archiving-methods\LzwCompression\Method\obj\Debug\Method.csprojResolveAssemblyReference.cache
 C:\lzw\Archiving-methods\LzwCompression\Method\obj\Debug\Method.dll
 C:\lzw\Archiving-methods\LzwCompression\Method\obj\Debug\Method.pdb
+=======
+C:\lzw\Archiving-methods\LzwCompression\Method\bin\Debug\Method.dll
+C:\lzw\Archiving-methods\LzwCompression\Method\bin\Debug\Method.pdb
+C:\lzw\Archiving-methods\LzwCompression\Method\obj\Debug\Method.csprojResolveAssemblyReference.cache
+C:\lzw\Archiving-methods\LzwCompression\Method\obj\Debug\Method.dll
+C:\lzw\Archiving-methods\LzwCompression\Method\obj\Debug\Method.pdb
+>>>>>>> pr/17

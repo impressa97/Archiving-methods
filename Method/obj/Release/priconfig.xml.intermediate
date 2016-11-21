@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources targetOsVersion="6.3.0" majorVersion="1">
-  <index root="\" startIndexAt="obj\Debug\layout.resfiles">
+  <index root="\" startIndexAt="obj\Release\layout.resfiles">
     <default>
       <qualifier name="Language" value="ru-RU" />
       <qualifier name="Contrast" value="standard" />
@@ -14,7 +14,7 @@
     </default>
     <indexer-config type="RESFILES" qualifierDelimiter="." />
   </index>
-  <index root="\" startIndexAt="obj\Debug\resources.resfiles">
+  <index root="\" startIndexAt="obj\Release\resources.resfiles">
     <default>
       <qualifier name="Language" value="ru-RU" />
       <qualifier name="Contrast" value="standard" />
@@ -26,11 +26,11 @@
       <qualifier name="Configuration" value="" />
       <qualifier name="AlternateForm" value="" />
     </default>
-    <indexer-config type="RESW" convertDotsToSlashes="true" initialPath="M0" />
-    <indexer-config type="RESJSON" initialPath="M0" />
+    <indexer-config type="RESW" convertDotsToSlashes="true" initialPath="M1" />
+    <indexer-config type="RESJSON" initialPath="M1" />
     <indexer-config type="RESFILES" qualifierDelimiter="." />
   </index>
-  <index root="\" startIndexAt="obj\Debug\pri.resfiles">
+  <index root="\" startIndexAt="obj\Release\pri.resfiles">
     <default>
       <qualifier name="Language" value="ru-RU" />
       <qualifier name="Contrast" value="standard" />

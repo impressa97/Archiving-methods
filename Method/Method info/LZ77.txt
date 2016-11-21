@@ -30,15 +30,15 @@ Bytes need: 29
 For reading from end(not good, but easy(less RAM)):
 <4, 3, 9>					<4, 0>
  |  |  |					 |  |
- |  |  Bytes for preview struct			 |  Length of repeated elements
- |  Length of repeated elements			 Bytes for preview struct
- Position in dictionary
+ |  |  Length of repeated elements		 |  Length of repeated elements
+ |  Position in dictionary			 Bytes for preview struct
+ Bytes for preview struct
 
 For normal reading:
 <4, 3, 9>					<4, 0>
  |  |  |					 |  |
- |  |  Bytes for next struct			 |  Length of repeated elements
- |  Length of repeated elements			 Bytes for next struct
- Position in dictionary
+ |  |  Length of repeated elements		 |  Length of repeated elements
+ |  Position in dictionary			 Bytes for next struct
+ Bytes for next structñ
 
 ---

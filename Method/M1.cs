@@ -203,6 +203,10 @@ namespace Method
                 this.NextStructInFile -= 2;
                 this.InputByteBuffer = this.BinFileReader.ReadBytes((Int32)(this.NextStructInFile));// - this.BinFileReader.BaseStream.Position));
                 this.SlidingWindow.AddRange(this.InputByteBuffer);
+                if (this.SlidingWindow.Count - Method.BufferLengthByte > 0)
+                {
+                    this.SlidingWindow.RemoveRange(0, this.SlidingWindow.Count - Method.BufferLengthByte);
+                }
                 this.BinFileWriter.Write(this.InputByteBuffer);
 
                 this.NextStructInFile = (UInt16)this.BinFileReader.ReadInt16();
@@ -212,11 +216,6 @@ namespace Method
                 this.InputByteBuffer = this.SlidingWindow.GetRange(this.Offset, this.PartLength).ToArray();
                 this.SlidingWindow.AddRange(this.InputByteBuffer);
                 this.BinFileWriter.Write(this.InputByteBuffer);
-
-                if (this.SlidingWindow.Count - Method.BufferLengthByte > 0)
-                {
-                    this.SlidingWindow.RemoveRange(0, this.SlidingWindow.Count - Method.BufferLengthByte);
-                }
             }
 
         }

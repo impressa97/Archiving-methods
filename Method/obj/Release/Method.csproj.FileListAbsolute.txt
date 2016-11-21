@@ -1,3 +1,9 @@
+C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\bin\Release\M1.dll
+C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\bin\Release\M1.pdb
+C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\bin\Release\M1.pri
+C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Release\Method.csprojResolveAssemblyReference.cache
+C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Release\M1.dll
+C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Release\M1.pdb
 C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Release\priconfig.xml
 C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Release\priconfig.xml.intermediate
 C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Release\layout.resfiles
@@ -9,8 +15,3 @@ C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Release\pri.resfiles
 C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Release\qualifiers.txt
 C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Release\qualifiers.txt.intermediate
 C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Release\MultipleQualifiersPerDimensionFound.txt
-C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\bin\Release\M1.dll
-C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\bin\Release\M1.pdb
-C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\bin\Release\M1.pri
-C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Release\M1.dll
-C:\Users\Oleg\Documents\GitHub\Archiving-methods\Method\obj\Release\M1.pdb

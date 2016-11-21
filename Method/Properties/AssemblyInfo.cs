@@ -6,15 +6,15 @@ using System.Runtime.InteropServices;
 // Общие сведения о сборке определяются следующим 
 // набором атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные с этой сборкой.
-[assembly: AssemblyTitle("M0")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("M1")]
+[assembly: AssemblyDescription("LZ77")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("DLA")]
 [assembly: AssemblyProduct("Method")]
-[assembly: AssemblyCopyright("©  2016")]
+[assembly: AssemblyCopyright("© DLA.Org 2016")]
 [assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-[assembly: NeutralResourcesLanguage("ru")]
+[assembly: AssemblyCulture("English, Russian")]
+[assembly: NeutralResourcesLanguage("en")]
 
 // Сведения о версии сборки состоят из следующих четырех значений:
 //
@@ -26,5 +26,5 @@ using System.Runtime.InteropServices;
 // Можно задать все значения или принять номера сборки и редакции по умолчанию 
 // указав "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("0.1.1.1")]
+[assembly: AssemblyFileVersion("0.1.1.1")]

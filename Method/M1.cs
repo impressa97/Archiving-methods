@@ -2,7 +2,7 @@
 using System.Linq;
 using System.IO.Compression;
 
-namespace ar
+namespace Method
 {
     public class Method
     {
@@ -120,8 +120,18 @@ namespace ar
                 {
                     this.BinFileReader.BaseStream.Position = this.StreamPositionBuffer;
                     this.InputByteBuffer = this.BinFileReader.ReadBytes(this.Offset);
-                    BinFileWriter.Write((UInt16)0);
+                    //BinFileWriter.Write((UInt16)0);
 
+
+                    this.BinFileWriter.BaseStream.Position = this.PreviousStructInStream;
+                    this.BinFileWriter.Write((UInt16)(this.BinFileWriter.BaseStream.Length - 4 - this.BinFileWriter.BaseStream.Position));
+                    this.BinFileWriter.BaseStream.Position = this.BinFileWriter.BaseStream.Length;
+                    this.PreviousStructInStream = this.BinFileWriter.BaseStream.Length;
+                    BinFileWriter.Write((UInt16)0);
+                    BinFileWriter.Write((UInt16)this.IndexOfEquals[0]);
+                    BinFileWriter.Write((UInt16)this.Offset);
+
+                    /*
                     this.BinFileWriter.BaseStream.Position = this.PreviousStructInStream;
                     /// 4 = 2 * Sizeof(BufferLengthByte)
                     this.BinFileWriter.Write((UInt16)(this.BinFileWriter.BaseStream.Length - 4 - this.BinFileWriter.BaseStream.Position));
@@ -130,7 +140,7 @@ namespace ar
                     this.PreviousStructInStream = this.BinFileWriter.BaseStream.Position - 2;
 
                     BinFileWriter.Write((UInt16)this.IndexOfEquals[0]);
-                    BinFileWriter.Write((UInt16)this.Offset);                                                       ///?qwe_??qwsa
+                    BinFileWriter.Write((UInt16)this.Offset);*/                                                       ///?qwe_??qwsa
 
                     /*
                     this.IndexOfEquals.Add((UInt16)(this.BinFileWriter.BaseStream.Position - this.PreviousStructInStream));
@@ -143,9 +153,9 @@ namespace ar
 
                     /// Запись в скользящее окно
                     this.SlidingWindow.AddRange(InputByteBuffer);
-                    if ((this.SlidingWindow.Count - 1) - Method.BufferLengthByte > 0)
+                    if (this.SlidingWindow.Count - Method.BufferLengthByte > 0)
                     {
-                        this.SlidingWindow.RemoveRange(0, (this.SlidingWindow.Count - 1) - Method.BufferLengthByte);
+                        this.SlidingWindow.RemoveRange(0, (this.SlidingWindow.Count) - Method.BufferLengthByte);
                     }
                     this.IndexOfEquals.Clear();
                 }
@@ -158,10 +168,11 @@ namespace ar
                     this.BinFileWriter.Write(InputByteBuffer);
                     /// Запись в скользящее окно
                     this.SlidingWindow.AddRange(this.InputByteBuffer);
+
                     /// Чтобы не вылетал, когда не заполнен под завязку
-                    if ((this.SlidingWindow.Count - 1) - Method.BufferLengthByte > 0)
+                    if (this.SlidingWindow.Count - Method.BufferLengthByte > 0)
                     {
-                        this.SlidingWindow.RemoveRange(0, (this.SlidingWindow.Count - 1) - Method.BufferLengthByte);
+                        this.SlidingWindow.RemoveRange(0, this.SlidingWindow.Count - Method.BufferLengthByte);
                     }
                     this.IndexOfEquals.Clear();
                 }
@@ -174,17 +185,40 @@ namespace ar
         {
             this.BinFileReader.BaseStream.Position = 0;
             this.BinFileWriter.BaseStream.Position = 0;
+            this.SlidingWindow = new System.Collections.Generic.List<byte>();
+
+            /// Тип UInt16 (Нужно считать 2 байта)
+            if (this.BinFileReader.BaseStream.Length > 1)
+            {
+                this.NextStructInFile = (UInt16)(this.BinFileReader.ReadInt16() + 4);
+            }
+
             for (; this.BinFileReader.BaseStream.Position < this.BinFileReader.BaseStream.Length;)
             {
-                if ((this.BinFileReader.BaseStream.Position + 8) < this.BinFileReader.BaseStream.Length)
+                if (this.NextStructInFile <= 0)
                 {
-                    this.BinFileWriter.Write(this.BinFileReader.ReadUInt64());
+                    this.BinFileWriter.Write(this.BinFileReader.ReadBytes((Int32)(this.BinFileReader.BaseStream.Length - this.BinFileReader.BaseStream.Position)));
+                    break;
                 }
-                else
+                this.NextStructInFile -= 2;
+                this.InputByteBuffer = this.BinFileReader.ReadBytes((Int32)(this.NextStructInFile));// - this.BinFileReader.BaseStream.Position));
+                this.SlidingWindow.AddRange(this.InputByteBuffer);
+                this.BinFileWriter.Write(this.InputByteBuffer);
+
+                this.NextStructInFile = (UInt16)this.BinFileReader.ReadInt16();
+                this.Offset = this.BinFileReader.ReadInt16();
+                this.PartLength = (UInt16)this.BinFileReader.ReadInt16();
+
+                this.InputByteBuffer = this.SlidingWindow.GetRange(this.Offset, this.PartLength).ToArray();
+                this.SlidingWindow.AddRange(this.InputByteBuffer);
+                this.BinFileWriter.Write(this.InputByteBuffer);
+
+                if (this.SlidingWindow.Count - Method.BufferLengthByte > 0)
                 {
-                    this.BinFileWriter.Write(this.BinFileReader.ReadByte());
+                    this.SlidingWindow.RemoveRange(0, this.SlidingWindow.Count - Method.BufferLengthByte);
                 }
             }
+
         }
         /// <summary>
         /// Reader for input stream
@@ -248,6 +282,16 @@ namespace ar
             set;
         }
         private Int64 PreviousStructInStream
+        {
+            get;
+            set;
+        }
+        private UInt16 NextStructInFile
+        {
+            get;
+            set;
+        }
+        private UInt16 PartLength
         {
             get;
             set;

@@ -1,0 +1,284 @@
+// LZ78.cpp : Defines the entry point for the console application.
+//
+
+
+/*
+	Упаковка/распаковка файлов по алгоритму LZ78
+*/
+
+#include <cstdlib>
+#include <memory.h>
+#include <cstdio>
+#include <cstring>
+
+#include <io.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+
+#define OFFS_LN 8
+#define BYTE_LN 8
+
+//#define DICT_SIZE 254
+#define DICT_SIZE ((1 << OFFS_LN) - 2)
+//=========================================================
+// Класс для ввода-вывода
+class TPackedFile
+{
+	int handle;
+	unsigned char buffer, mask;
+public:
+	void assign_read(int h);  // связывание для чтения
+	void assign_write(int h); // связываение для записи
+	void flush(); // заполнение нулями
+
+	void putbit(bool val); // запись бита
+	bool getbit(); //чтенние бита
+
+	void putbits(int val, int n); // запись n битов
+	int getbits(int n); // чтение n битов
+};
+//---------------------------------------------------------
+// заполнение нулями
+void TPackedFile::flush()
+{
+	for (int i = 0; i < 7; i++) putbit(0);
+}
+//---------------------------------------------------------
+// связываение для записи
+void TPackedFile::assign_write(int h)
+{
+	handle = h;
+	buffer = 0;
+	mask = 128;
+}
+//---------------------------------------------------------
+// связывание для чтения	
+void TPackedFile::assign_read(int h)
+{
+	handle = h;
+	buffer = 0;
+	mask = 0;
+}
+//---------------------------------------------------------
+//чтенние бита
+bool TPackedFile::getbit()
+{
+	if ((mask >>= 1) == 0) 
+	{
+		read(handle, &buffer, 1);
+		mask = 128;//двоичное 10000000
+	}
+	return (buffer & mask) != 0;
+}
+//---------------------------------------------------------
+// запись бита
+void TPackedFile::putbit(bool val)
+{
+	if (val) buffer |= mask;
+	if ((mask >>= 1) == 0) 
+	{
+		write(handle, &buffer, 1);
+		buffer = 0;  
+		mask = 128; //двоичное 10000000
+	}
+}
+//---------------------------------------------------------
+// запись n битов
+void TPackedFile::putbits(int val, int n)
+{
+	int m = 1;
+	for (int i = 0; i < n; i++)
+	{
+		putbit((val & m) != 0);
+		m <<= 1;
+	}
+}
+//---------------------------------------------------------
+// чтение n битов
+int TPackedFile::getbits(int n)
+{
+	int result = 0;
+	for (int i = 0; i < n; i++)
+		result |= getbit() << i;
+	return result;
+}
+//=========================================================
+
+/*
+	0 - конец файла, 1 - пустая фраза
+	==> первая фраза имеет номер 2
+*/
+#define PHRASE_END 0
+#define PHRASE_EMPTY 1
+#define PHRASE_1ST 2
+
+int in_file; // входной файл
+int out_file; // выходной файл
+int dict_pos = 0; // текущая позиция в словаре
+
+static TPackedFile archive;
+//=========================================================
+// структура для словаря
+struct dict_entry
+{
+	char *data; // данные
+	int len; // длина
+public:
+	dict_entry(dict_entry *src, char c);
+	dict_entry(char c);
+	~dict_entry();
+	bool match(dict_entry *entry, char c); // поиск
+};
+//---------------------------------------------------------
+dict_entry::dict_entry(char c)
+{
+	data = (char*)malloc(1);
+	*data = c;
+	len = 1;
+}
+//---------------------------------------------------------
+dict_entry::dict_entry(dict_entry *entry, char c)
+{
+	len = entry->len + 1;
+	data = (char*)malloc(len);
+	memcpy(data, entry->data, entry->len);
+	data[entry->len] = c;
+}
+//---------------------------------------------------------
+dict_entry::~dict_entry()
+{
+	free(data);
+}
+//---------------------------------------------------------
+bool dict_entry::match(dict_entry *entry, char c)
+{
+	if (len != (entry->len + 1)) return false;
+	return data[entry->len] == c && 
+		memcmp(entry->data, data, entry->len) == 0;
+}
+//=========================================================
+dict_entry *dict[DICT_SIZE];
+
+//---------------------------------------------------------
+// очистка словаря
+void free_dict()
+{
+	for (int i = 0; i < DICT_SIZE; i++)
+		if (dict[i]) 
+		{
+			delete dict[i];
+			dict[i] = 0;
+		}
+}
+//---------------------------------------------------------
+// поиск фразы
+int find_phrase(int val, char c)
+{
+	for (int i = 0; i < dict_pos; i++)
+		if ((val >= PHRASE_1ST && dict[i]->match(dict[val
+			- PHRASE_1ST], c))
+			|| (val == PHRASE_EMPTY && dict[i]->len
+			== 1 && *dict[i]->data == c))
+			return i + PHRASE_1ST;
+	return PHRASE_EMPTY;
+}
+//---------------------------------------------------------
+// добавление фразы в словарь
+void add_phrase(int n, char c)
+{
+	if (dict_pos < DICT_SIZE)
+	{
+		if (n == PHRASE_EMPTY)
+			dict[dict_pos] = new dict_entry(c);
+		else dict[dict_pos] =
+			new dict_entry(dict[n - PHRASE_1ST], c);
+		dict_pos++;
+	}
+}
+//---------------------------------------------------------
+// компрессия
+void encode()
+{
+	char c;
+	int num = PHRASE_EMPTY;
+	while (!eof(in_file))
+	{
+		read(in_file, &c, 1);
+		int val = find_phrase(num, c);
+		if (val != PHRASE_EMPTY) num = val;
+		else
+		{
+			archive.putbits(num, OFFS_LN);
+			archive.putbits(c, BYTE_LN);
+			add_phrase(num, c);
+			num = PHRASE_EMPTY;
+		}
+	}
+	if (num != PHRASE_EMPTY)
+		for (int i = 0; i < dict[num - PHRASE_1ST]->len; i++)
+		{
+			archive.putbits(PHRASE_EMPTY, OFFS_LN);
+			archive.putbits(dict[num - PHRASE_1ST]->data[i],
+				BYTE_LN);
+		}
+	//write(out_file, "\0", 1);
+	archive.putbits(PHRASE_END, OFFS_LN);
+	archive.flush();
+}
+//---------------------------------------------------------
+// декомпрессия
+void decode()
+{
+	unsigned char num;
+	char c;
+	for(;;)
+	{
+		num = archive.getbits(OFFS_LN);
+		if (num == PHRASE_END) break;
+		c = archive.getbits(BYTE_LN);
+		if (num >= PHRASE_1ST)
+			write(out_file, dict[num - PHRASE_1ST]->data,
+				dict[num - PHRASE_1ST]->len);
+		write(out_file, &c, 1);
+		add_phrase(num, c);
+	}
+}
+//---------------------------------------------------------
+// главная процедура
+int main(int argc, char* argv[])
+{
+	// проверка аргументов
+	if (argc < 4)
+	{
+		printf("Usage:\nLZ78 e in out - Encode in to out"
+			"\nLZ78 d in out - decode in to out\n");
+		return -1;
+	}
+
+	// открытие входного и выходного файлов
+	in_file = open(argv[2], _O_BINARY | _O_RDWR, 
+		_S_IREAD | _S_IWRITE);
+	out_file = open(argv[3], _O_BINARY | _O_WRONLY | _O_CREAT
+		| _O_TRUNC, _S_IREAD | _S_IWRITE);
+
+	
+	if (stricmp(argv[1], "e") == 0) // компрессия
+	{
+		archive.assign_write(out_file);
+		encode();
+		printf("Encoded %s to %s\n", argv[2], argv[3]);
+	}
+	else if (stricmp(argv[1], "d") == 0) // декомпрессия
+	{
+		archive.assign_read(in_file);
+		decode();
+		printf("Decoded %s to %s\n", argv[2], argv[3]);
+	}
+	else printf("Unknown command - nothing to do\n");
+	
+	free_dict();
+	close(in_file);
+	close(out_file);
+
+	return 0;
+}
